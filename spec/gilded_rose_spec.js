@@ -1,4 +1,4 @@
-const { Shop, Item, regularItem, agedBrie, sulfuras, backstagePass, conjuredItem} = require("../src/gilded_rose.js");
+const { Shop, regularItem, agedBrie, sulfuras, backstagePass, conjuredItem} = require("../src/gilded_rose.js");
 describe("Gilded Rose", function () {
   it("can check value of item in itemarray.", function () {
     const gildedRose = new Shop([new regularItem("example item", 10, 9)]);
@@ -31,10 +31,15 @@ describe("Gilded Rose", function () {
     expect(result).toEqual(8);
   });
   it("The Quality of an item is never negative.", function () {
-    const gildedRose = new Shop([new regularItem("Another thing", -1, 1)]);
-    gildedRose.updateQuality();
-    const result = gildedRose.items[0].quality
-    expect(result).toEqual(0);
+    const gildedRose = new Shop([
+      new regularItem("regular item", -1, 1),
+      new conjuredItem("conjured item", -1, 1),
+      new agedBrie("aged brie", -1, -2)
+    ]);
+    const items = gildedRose.updateQuality();
+    expect(items[0].quality).toEqual(0);
+    expect(items[1].quality).toEqual(0);
+    expect(items[2].quality).toEqual(0);
   });
   it("Aged Brie actually increases in Quality the older it gets", function () {
     const gildedRose = new Shop([new agedBrie("Aged Brie", 2, 1)]);
@@ -72,16 +77,5 @@ describe("Gilded Rose", function () {
     ]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toEqual(8);
-  });
-  fit("The Quality of an item is never negative.", function () {
-    const gildedRose = new Shop([
-      new regularItem("regular item", -1, 1),
-      new conjuredItem("conjured item", -1, 1),
-      new agedBrie("aged brie", -1, -1)
-    ]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].quality).toEqual(0);
-    expect(items[1].quality).toEqual(0);
-    expect(items[2].quality).toEqual(0);
   });
 });

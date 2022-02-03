@@ -13,7 +13,7 @@ class regularItem extends Item {
 
   updateDailyQuality() {
     this.sellIn -= 1;
-    if (this.quality > 0) {
+    if (this.quality > 0 && this.quality <= 50) {
       this.quality -= 1;
     }
     if (this.sellIn < 0 && this.quality > 0) {
@@ -75,11 +75,11 @@ class conjuredItem extends Item {
     super(name, sellIn, quality);
   }
   updateDailyQuality() {
-    this.sellIn -= 1;
-    if (this.quality > 0) {
-      this.quality -= 2;
+    this.sellIn -= 1
+    if (this.quality === 1) {
+      this.quality -= 1;
     }
-    if (this.sellIn < 0) {
+    else if (this.quality >= 2) {
       this.quality -= 2;
     }
   }
