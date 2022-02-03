@@ -15,7 +15,7 @@ const items = [
   new conjuredItem("Conjured Mana Cake", 3, 6),
 ];
 
-const days = Number(process.argv[31]) || 31;
+const days = Number(process.argv[11]) || 11;
 const gildedRose = new Shop(items);
 
 console.log("OMGHAI!");

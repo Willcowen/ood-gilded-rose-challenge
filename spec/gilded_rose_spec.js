@@ -48,9 +48,13 @@ describe("Gilded Rose", function () {
     expect(result).toEqual(2);
   });
   it("The Quality of an item is never more than 50", function () {
-    const gildedRose = new Shop([new agedBrie("Aged Brie", 2, 50)]);
+    const gildedRose = new Shop([
+      new agedBrie("Aged Brie", 2, 50),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", 5, 50)
+    ]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toEqual(50);
+    expect(items[1].quality).toEqual(50);
   });
   it("Sulfuras, being a legendary item, never has to be sold or decreases in Quality", function () {
     const gildedRose = new Shop([
@@ -77,5 +81,34 @@ describe("Gilded Rose", function () {
     ]);
     const items = gildedRose.updateQuality();
     expect(items[0].quality).toEqual(8);
+  });
+  it("Dealing with multiple items over 10 days - referring to expected outcomes.", function () {
+    const gildedRose = new Shop([
+      new regularItem("+5 Dexterity Vest", 10, 20),
+      new agedBrie("Aged Brie", 2, 0),
+      new regularItem("Elixir of the Mongoose", 5, 7),
+      new sulfuras("Sulfuras, Hand of Ragnaros", 0, 80),
+      new sulfuras("Sulfuras, Hand of Ragnaros", -1, 80),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", 15, 20),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", 10, 49),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", 5, 49),
+      new conjuredItem("Conjured Mana Cake", 3, 6)
+    ]);
+    const expected = new Shop([
+      new regularItem("+5 Dexterity Vest", 0, 10),
+      new agedBrie("Aged Brie", -8, 18),
+      new regularItem("Elixir of the Mongoose", -5, 0),
+      new sulfuras("Sulfuras, Hand of Ragnaros", 0, 80),
+      new sulfuras("Sulfuras, Hand of Ragnaros", -1, 80),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", 5, 37),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", 0, 50),
+      new backstagePass("Backstage passes to a TAFKAL80ETC concert", -5, 0),
+      new conjuredItem("Conjured Mana Cake", -7, 0)
+    ]);
+    for (let i = 0; i < 9; i++) {
+      gildedRose.updateQuality()
+    }
+    const itemlist = new Shop(gildedRose.updateQuality())
+    expect(itemlist).toEqual(expected);
   });
 });
