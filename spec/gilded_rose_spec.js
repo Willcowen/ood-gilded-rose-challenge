@@ -1,27 +1,28 @@
-var { Shop, Item } = require("../src/gilded_rose.js");
+const { Shop, Item, normalItem, agedBrie, sulfuras, backstagePass, conjuredItem} = require("../src/gilded_rose.js");
 describe("Gilded Rose", function () {
-  it("new shop instance returns empty array.", function () {
-    const gildedRose = new Shop();
-    expect(gildedRose.updateQuality()).toEqual([]);
-  });
   it("can check value of item in itemarray.", function () {
-    const gildedRose = new Shop([new Item("example item", 10, 9)]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].name).toEqual("example item");
+    const gildedRose = new Shop([new normalItem("example item", 10, 9)]);
+    gildedRose.updateQuality();
+    const result = gildedRose.items[0].name
+    expect(result).toEqual("example item");
   });
   it("item sellIn & item quality decreases by one after one day.", function () {
-    const gildedRose = new Shop([new Item("example item", 10, 9)]);
-    const items = gildedRose.updateQuality();
-    expect(items[0].sellIn).toEqual(9);
-    expect(items[0].quality).toEqual(8);
+    const gildedRose = new Shop([new normalItem("example item", 10, 9)]);
+    gildedRose.updateQuality();
+    const resultOne = gildedRose.items[0].sellIn
+    const resultTwo = gildedRose.items[0].quality
+    expect(resultOne).toEqual(9);
+    expect(resultTwo).toEqual(8);
   });
-  it("item sellIn & item quality decreases by 5 after 5 days.", function () {
+  fit("item sellIn & item quality decreases by 5 after 5 days.", function () {
     const gildedRose = new Shop([new Item("example item", 10, 9)]);
     for (let i = 0; i < 4; i++) {
       gildedRose.updateQuality();
     }
-    const items = gildedRose.updateQuality();
-    expect(items[0].sellIn).toEqual(5);
+    gildedRose.updateQuality();
+    const resultOne = gildedRose.items[0].sellIn
+    const resultTwo = gildedRose.items[0].sellIn
+    expect(resultOne).toEqual(5);
     expect(items[0].quality).toEqual(4);
   });
   it("Once sellIn date passed, quality decreases twice as fast.", function () {
