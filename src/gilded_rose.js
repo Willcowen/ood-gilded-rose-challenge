@@ -7,9 +7,6 @@ class Item {
 }
 
 class regularItem extends Item {
-  constructor(name, sellIn, quality) {
-    super(name, sellIn, quality);
-  }
 
   updateDailyQuality() {
     this.sellIn -= 1;
@@ -23,17 +20,13 @@ class regularItem extends Item {
 }
 
 class sulfuras extends Item {
-  constructor(name, sellIn, quality) {
-    super(name, sellIn, quality);
-  }
+
 
   updateDailyQuality() {}
 }
 
 class agedBrie extends Item {
-  constructor(name, sellIn, quality) {
-    super(name, sellIn, quality);
-  }
+  
 
   updateDailyQuality() {
     this.sellIn -= 1;
@@ -48,9 +41,6 @@ class agedBrie extends Item {
 }
 
 class backstagePass extends Item {
-  constructor(name, sellIn, quality) {
-    super(name, sellIn, quality);
-  }
 
   updateDailyQuality() {
     this.sellIn -= 1;
@@ -62,9 +52,6 @@ class backstagePass extends Item {
       this.quality = 50
       return
     }
-  //   if (this.sellIn > 0) {
-  //     this.quality += 1;
-  // }
     if (this.sellIn > 5 && this.sellIn <= 10) {
       this.quality += 2;
     }
@@ -78,9 +65,7 @@ class backstagePass extends Item {
 }
 
 class conjuredItem extends Item {
-  constructor(name, sellIn, quality) {
-    super(name, sellIn, quality);
-  }
+
   updateDailyQuality() {
     this.sellIn -= 1
     if (this.quality === 1) {
